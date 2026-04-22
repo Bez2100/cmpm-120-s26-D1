@@ -29,13 +29,20 @@ class Homescreen extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5);
 
+        this.return = this.input.keyboard.addKey('R');
+
+
         this.input.keyboard.on('keydown-SPACE', () => {
-            this.scene.start('game');
+            this.scene.start('opening');
         });
 
     }
 
     update() {
-        // Update homescreen elements
+            //if (Phaser.Input.Keyboard.JustDown(this.return)) {
+             //   this.scene.start('game');
+            //}
+
+ 
     }
 }
