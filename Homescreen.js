@@ -8,10 +8,12 @@ class Homescreen extends Phaser.Scene {
     }
 
     create() {
+        const cx = this.scale.width / 2;
+
         this.add.image(this.scale.width / 2, this.scale.height / 2, 'homeBackground')
             .setDisplaySize(this.scale.width, this.scale.height);
 
-        this.add.text(this.scale.width / 2, 200, "Welcome to Fallen!", {
+        const titleText = this.add.text(this.scale.width + 250, 200, "Fallen", {
             fontFamily: '"Press Start 2P"',
             fontSize: '32px',
             color: '#9dfc8b',
@@ -19,6 +21,13 @@ class Homescreen extends Phaser.Scene {
             strokeThickness: 6,
             align: 'center'
         }).setOrigin(0.5);
+
+        this.tweens.add({
+            targets: titleText,
+            x: cx,
+            duration: 1000,
+            ease: 'Cubic.easeOut'
+        });
 
         this.add.text(this.scale.width / 2, 300, "Press SPACE to Start", {
             fontFamily: '"Press Start 2P"',

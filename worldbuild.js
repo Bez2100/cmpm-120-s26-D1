@@ -3,7 +3,14 @@ class worldbuild extends Phaser.Scene {
         super('worldbuild');
     }
 
+    preload() {
+        this.load.audio('siren', 'assets/siren.mp3');
+    }
+
     create() {
+        this.sirenSound = this.sound.add('siren', { loop: true, volume: 0.35 });
+        this.sirenSound.play();
+
         const cx = this.scale.width / 2;
         const textStyle = {
             fontFamily: '"Press Start 2P"',
@@ -14,10 +21,10 @@ class worldbuild extends Phaser.Scene {
         };
 
         const lines = [
-            '10 years ago the gravity shifted\u2026',
+            '10 years ago the gravity shifted…',
             'What was up and what was down have no\nrelevance in this new world',
             'There were those who tried to overcome\nthis change and uncover the secret of\nthe gravity shift',
-            'And they were called the\u2026'
+            'And they were called the…'
         ];
 
         // Build text objects, all invisible to start
@@ -63,7 +70,7 @@ class worldbuild extends Phaser.Scene {
         const cx = this.scale.width / 2;
         const cy = this.scale.height / 2;
 
-        const loadingText = this.add.text(cx, cy, 'Loading\u2026', {
+        const loadingText = this.add.text(cx, cy, 'Loading…', {
             fontFamily: '"Press Start 2P"',
             fontSize: '20px',
             color: '#9dfc8b',
@@ -86,14 +93,20 @@ class worldbuild extends Phaser.Scene {
                     yoyo: true,
                     repeat: 3,
                     onComplete: () => {
-                        // Fade out loading text then go to homescreen
+                        // Fade out loading text then fade scene to black before homescreen
                         this.tweens.add({
                             targets: loadingText,
                             alpha: 0,
                             duration: 600,
                             ease: 'Sine.easeOut',
                             onComplete: () => {
-                                this.scene.start('homescreen');
+                                this.cameras.main.once('camerafadeoutcomplete', () => {
+                                    if (this.sirenSound && this.sirenSound.isPlaying) {
+                                        this.sirenSound.stop();
+                                    }
+                                    this.scene.start('homescreen');
+                                });
+                                this.cameras.main.fadeOut(800, 0, 0, 0);
                             }
                         });
                     }

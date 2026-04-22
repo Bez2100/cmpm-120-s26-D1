@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="lib/phaser.js"></script>
+    <script src="studio.js"></script>
     <script src="worldbuild.js"></script>
     <script src="Homescreen.js"></script>
     <script src="opening.js"></script>
@@ -19,7 +20,7 @@
             width: 800,
             height: 600,
             backgroundColor: '#222222',
-            scene: [worldbuild, Homescreen, opening]
+            scene: [studio, worldbuild, Homescreen, opening]
         };
 
         document.fonts.load('16px "Press Start 2P"').then(() => {
