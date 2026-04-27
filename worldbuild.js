@@ -77,6 +77,8 @@ class worldbuild extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5).setAlpha(0);
 
+        let waveTween;
+
         // Fade in the loading text
         this.tweens.add({
             targets: loadingText,
@@ -84,6 +86,17 @@ class worldbuild extends Phaser.Scene {
             duration: 500,
             ease: 'Sine.easeIn',
             onComplete: () => {
+                waveTween = this.tweens.addCounter({
+                    from: 0,
+                    to: Math.PI * 2,
+                    duration: 900,
+                    ease: 'Sine.easeInOut',
+                    repeat: -1,
+                    onUpdate: (tween) => {
+                        loadingText.y = cy + Math.sin(tween.getValue()) * 8;
+                    }
+                });
+
                 // Pulsating loop
                 this.tweens.add({
                     targets: loadingText,
@@ -93,6 +106,11 @@ class worldbuild extends Phaser.Scene {
                     yoyo: true,
                     repeat: 3,
                     onComplete: () => {
+                        if (waveTween) {
+                            waveTween.stop();
+                            loadingText.y = cy;
+                        }
+
                         // Fade out loading text then fade scene to black before homescreen
                         this.tweens.add({
                             targets: loadingText,
